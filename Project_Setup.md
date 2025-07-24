@@ -40,7 +40,7 @@ To get started, you need to configure the environment variables by creating a `.
 MISTRAL_API_KEY=your_mistral_api_key_here
 TOP_K=15
 SHORT_TERM_MEMORY_RETRIEVE=2
-MONGODB_URI=mongodb://localhost:27017
+MONGODB_URI=mongodb://localhost:"<Port Number>"
 MONGODB_DB=rag_short_memory
 MONGODB_COLLECTION=qa_logs
 ```
