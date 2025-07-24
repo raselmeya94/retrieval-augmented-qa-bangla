@@ -2,11 +2,19 @@
 
 ---
 
+## CLone Git Repository:
+
+```bash
+git clone https://github.com/raselmeya94/retrieval-augmented-qa-bangla.git
+cd retrieval-augmented-qa-bangla
+```
+After cloning the repo, you'll see the following directory structure.
+
 ## 📁 Project Structure
 
 ```
-.
-├── app/
+retrieval-augmented-qa-bangla
+├── bn_rag_app/
 │   ├── main.py                # FastAPI application entrypoint
 │   ├── load_vectordb.py       # Vector store loading utilities
 │   ├── rag_pipeline.py        # RAG system pipeline logic
@@ -29,12 +37,13 @@
 └── README.md                  # Project overview and instructions
 ```
 ---
-### Configure Environment Variables
+### Configure Environment Variables:
 
-To get started, you need to configure the environment variables by creating a `.env` file in the root directory of the project.
+You'll need to configure environment variables for things like the `Mistral API key`, `MongoDB connection`, and some system settings.
 
-1. Create a new `.env` file in the root directory.
-2. Add the following lines to the file:
+1. Open the `.env` file you created in the root directory of your project.
+
+2. Update the values with your actual information. Here’s what the updated `.env` file might look like:
 
 ```env
 MISTRAL_API_KEY=your_mistral_api_key_here
@@ -58,9 +67,11 @@ Once this is configured, the system will be ready for use.
 
 ---
 
-### 1. Python Version
+## 📦 Requirements
 
-* Use **Python 3.10** (recommended: 3.10 )
+* **Python**: version **3.10** (recommended)
+* **MongoDB**: Local or remote instance running
+* **Mistral API**: Valid API key from [Mistral](https://docs.mistral.ai)
 
 ---
 
