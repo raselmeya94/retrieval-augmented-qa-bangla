@@ -249,7 +249,7 @@ Model interaction logs stored in MongoDB.
 
 ### 📚 Additional Documentation
 
-To keep the main README clean and organized, we’ve separated the details into dedicated documents:
+To keep the main README clean and organized, I’ve separated the details into dedicated documents:
 * 🛠️ **Setup Guide**: See [Setup Guidelines](Project_Setup.md) for complete instructions on how to set up the environment, run the project, and configure essential variables (like API keys and database connections via .env).
 * 📘 **API Guide**: Follow the instructions in [API Documentation](API_Documentation.md) to test and interact with the available API endpoints.
 * 📊 **System Evaluation**: See [Evaluation RAG System](Evaluation_RAG_System.md) for benchmarking methods and performance metrics of the RAG pipeline.
