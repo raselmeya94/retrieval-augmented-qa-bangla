@@ -2,7 +2,7 @@
 
 ---
 
-## 1. CLone Git Repository:
+## 1. Clone Git Repository:
 
 ```bash
 git clone https://github.com/raselmeya94/retrieval-augmented-qa-bangla.git
@@ -40,7 +40,7 @@ retrieval-augmented-qa-bangla
 
 ### ✅ Configure Environment Variables
 
-A `.env` file is already present in the root directory of **this project**. You only need to update a few values like the **Mistral API key**, **MongoDB URI/Port**, and other configuration parameters.
+A `.env` file is already present in the root directory of **this project**. You only need to update a few values like the **`Mistral API key`**, **`MongoDB URI/Port`**, and other configuration parameters.
 
 #### 📝 Steps to Update:
 
@@ -75,7 +75,7 @@ Once the `.env` file is correctly updated, **this project** will be ready to run
 
 * **Python**: version **3.10** (recommended)
 * **MongoDB**: Local or remote instance running
-* **Mistral API**: Valid API key from [Mistral](https://docs.mistral.ai)
+* **Mistral API**: Valid API key from [Mistral AI](https://docs.mistral.ai)
 
 ---
 
@@ -111,8 +111,8 @@ Run the vector store creation script to generate embeddings and build the vector
 python pdf_to_vectordb/create_vectordb.py
 ```
 
-> After completion, you will see a `vector_store` directory containing vector embedding data, and a `chunks.txt` file with the processed PDF chunks for observation. IF Chunks.txt are present text that means vectordb created..
-**Note:** This step for single times.
+> After completion, you will see a `vector_store` directory containing vector embedding data, and a `chunks.txt` file with the processed PDF chunks for observation. If Chunks.txt is present, it means VectorDB was created.
+**Note:** This step is for a single time.
 ---
 
 ## 5. Run FastAPI Application
