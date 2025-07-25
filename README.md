@@ -85,7 +85,7 @@ LLM Generates Answer
 
 ### Why Mistral OCR?
 
-Initially, we attempted using traditional PDF-to-text libraries like `pdfplumber`, `PyMuPDF`, and `ocrmypdf`, but they failed to extract clean Bangla text due to font rendering issues. Image-based OCR (PDF to image → image to text) was also attempted but didn’t yield satisfactory results.
+Initially, I attempted using traditional PDF-to-text libraries like `pdfplumber`, `PyMuPDF`, and `ocrmypdf`, but they failed to extract clean Bangla text due to font rendering issues. Image-based OCR (PDF to image → image to text) was also attempted, but didn’t yield satisfactory results.
 
 #### ❌ PDF Text Extraction Example:
 
@@ -158,7 +158,7 @@ Initially, we attempted using traditional PDF-to-text libraries like `pdfplumber
   * Prevents breaking of sentences mid-way
 * **Config**:
 
-  * `chunk_size = 4096`, `chunk_overlap = 300`
+  * `chunk_size = 4096`, `chunk_overlap = 200`
 
 ---
 
