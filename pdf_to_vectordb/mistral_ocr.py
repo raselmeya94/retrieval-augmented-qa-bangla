@@ -38,7 +38,7 @@ def ocr_from_pdf(pdf_file_path, api_key, language):
         # Extract the text from the OCR response
         # extracted_text = "\n\n".join(page.markdown for page in ocr_response.pages).strip()
         extracted_text = "\n\n".join(
-        f"---Page End---\n{page.markdown.strip()}"
+        f"\nPage End\n{page.markdown.strip()}"
         for i, page in enumerate(ocr_response.pages)
     ).strip()
 

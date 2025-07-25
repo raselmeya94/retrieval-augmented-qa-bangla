@@ -1,10 +1,10 @@
-## 🔌 API Access (Bonus)
+# 🔌 API Access (Bonus)
 
 Our Bengali Literature QA system provides a simple RESTful API to query answers from processed PDFs using a RAG-based architecture.
 
 ---
 
-### 📮 Endpoint: `/ask`
+## 📮 Endpoint: `/ask`
 
 * **Method:** `POST`
 * **Content-Type:** `application/json`
@@ -37,7 +37,7 @@ Content-Type: application/json
 
 ---
 
-### 🔍 Interactive API Docs
+## 🔍 Interactive API Docs
 
 You can explore and test the API using the built-in Swagger UI at:
 
@@ -48,7 +48,7 @@ http://localhost:<port>/docs
 
 ---
 
-### 📤 `curl` Example
+## 📤 `curl` Example
 
 ```bash
 curl -X POST http://localhost:<port>/ask \

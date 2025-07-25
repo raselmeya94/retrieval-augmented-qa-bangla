@@ -2,7 +2,7 @@
 
 ---
 
-## CLone Git Repository:
+## 1. CLone Git Repository:
 
 ```bash
 git clone https://github.com/raselmeya94/retrieval-augmented-qa-bangla.git
@@ -10,14 +10,14 @@ cd retrieval-augmented-qa-bangla
 ```
 After cloning the repo, you'll see the following directory structure.
 
-## 📁 Project Structure
+### 📁 Project Structure
 
 ```
 retrieval-augmented-qa-bangla
 ├── bn_rag_app/
 │   ├── main.py                # FastAPI application entrypoint
 │   ├── load_vectordb.py       # Vector store loading utilities
-│   ├── rag_pipeline.py        # RAG system pipeline logic
+│   └── rag_pipeline.py        # RAG system pipeline logic
 ├── data/
 │   └── HSC26_Bangla.pdf       # Source PDF document(s)
 ├── llm_evaluation/
@@ -37,35 +37,39 @@ retrieval-augmented-qa-bangla
 └── README.md                  # Project overview and instructions
 ```
 ---
-### Configure Environment Variables:
 
-You'll need to configure environment variables for things like the `Mistral API key`, `MongoDB connection`, and some system settings.
+### ✅ Configure Environment Variables
 
-1. Open the `.env` file you created in the root directory of your project.
+A `.env` file is already present in the root directory of **this project**. You only need to update a few values like the **Mistral API key**, **MongoDB URI/Port**, and other configuration parameters.
 
-2. Update the values with your actual information. Here’s what the updated `.env` file might look like:
+#### 📝 Steps to Update:
+
+1. Open the existing `.env` file located at the root of this project.
+2. Replace the placeholder values with the actual configuration details.
+
+Here is an example of the updated `.env` file:
 
 ```env
-MISTRAL_API_KEY=your_mistral_api_key_here
+MISTRAL_API_KEY=your_actual_mistral_api_key
 TOP_K=15
 SHORT_TERM_MEMORY_RETRIEVE=2
-MONGODB_URI=mongodb://localhost:"<Port Number>"
+MONGODB_URI=mongodb://localhost:27017
 MONGODB_DB=rag_short_memory
 MONGODB_COLLECTION=qa_logs
 ```
 
-#### Explanation of the Environment Variables:
+#### 📌 Explanation of Environment Variables:
 
-* **MISTRAL\_API\_KEY**: Your Mistral API key for OCR/embedding.
-* **TOP\_K**: The number of top results to retrieve from the model.
-* **SHORT\_TERM\_MEMORY\_RETRIEVE**: Number of previous queries to retain for context.
-* **MONGODB\_URI**: URI for your MongoDB database.
-* **MONGODB\_DB**: The database name for storing data.
-* **MONGODB\_COLLECTION**: Collection name for storing QA logs.
-
-Once this is configured, the system will be ready for use.
+* **`MISTRAL_API_KEY`**: API key for using Mistral's services such as embeddings or OCR.
+* **`TOP_K`**: Number of top relevant results to fetch from the vector store.
+* **`SHORT_TERM_MEMORY_RETRIEVE`**: Number of recent queries to include in the conversational context.
+* **`MONGODB_URI`**: MongoDB connection string with host and port.
+* **`MONGODB_DB`**: Database name for storing application data.
+* **`MONGODB_COLLECTION`**: Collection where question-answer logs will be stored.
 
 ---
+
+Once the `.env` file is correctly updated, **this project** will be ready to run with the appropriate settings. ✅
 
 ## 📦 Requirements
 
@@ -75,7 +79,7 @@ Once this is configured, the system will be ready for use.
 
 ---
 
-### 2. Create Virtual Environment (venv)
+## 2. Create Virtual Environment (venv)
 
 ```bash
 # Create virtual environment named 'venv'
@@ -91,7 +95,7 @@ venv\Scripts\activate
 
 ---
 
-### 3. Install Dependencies
+## 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -99,7 +103,7 @@ pip install -r requirements.txt
 
 ---
 
-### 4. Create Vector Store (VectorDB)
+## 4. Create Vector Store (VectorDB)
 
 Run the vector store creation script to generate embeddings and build the vector database:
 
@@ -111,7 +115,7 @@ python pdf_to_vectordb/create_vectordb.py
 **Note:** This step for single times.
 ---
 
-### 5. Run FastAPI Application
+## 5. Run FastAPI Application
 
 Navigate to the `bn_rag_app` directory:
 
@@ -133,7 +137,7 @@ By default, the server runs at:
 
 ---
 
-### 6. API Testing
+## 6. API Testing
 
 Follow the instructions in [API Documentation](API_Documentation.md) to test and interact with the API endpoints.
 

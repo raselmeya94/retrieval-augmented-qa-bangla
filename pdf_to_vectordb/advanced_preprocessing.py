@@ -38,13 +38,75 @@ def english_to_bangla_digit(en_digit_str):
     en_bn_map = str.maketrans('0123456789', '০১২৩৪৫৬৭৮৯')
     return en_digit_str.translate(en_bn_map)
 
+# def fix_serial_numbers(text):
+#     start_trigger = '| :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |'
+#     end_trigger = '# সৃজনশীল প্রশ্ন'
+
+#     in_correction_mode = False
+#     corrected_lines = []
+#     serial_counter = 1
+
+#     for line in text.splitlines():
+#         if start_trigger in line:
+#             in_correction_mode = True
+#             serial_counter = 1
+#             corrected_lines.append(line)
+#             continue
+
+#         if end_trigger in line:
+#             in_correction_mode = False
+#             corrected_lines.append(line)
+#             continue
+
+#         if in_correction_mode and "|" in line:
+#             tokens = [token.strip() for token in line.strip('|').split('|')]
+#             new_tokens = []
+#             i = 0
+#             while i < len(tokens):
+#                 if i % 2 == 0:  # SL column
+#                     try:
+#                         num_eng = int(bangla_to_english_digit(tokens[i]))
+#                         if num_eng != serial_counter:
+#                             new_tokens.append(english_to_bangla_digit(str(serial_counter)))
+#                         else:
+#                             new_tokens.append(tokens[i])
+#                     except ValueError:
+#                         new_tokens.append(english_to_bangla_digit(str(serial_counter)))
+#                     serial_counter += 1
+#                 else:  # Ans column
+#                     new_tokens.append(tokens[i])
+#                 i += 1
+
+#             while len(new_tokens) < 10:
+#                 if len(new_tokens) % 2 == 0:
+#                     new_tokens.append(english_to_bangla_digit(str(serial_counter)))
+#                     serial_counter += 1
+#                 else:
+#                     new_tokens.append('')
+
+#             fixed_line = "| " + " | ".join(new_tokens) + " |"
+#             corrected_lines.append(fixed_line)
+#         else:
+#             corrected_lines.append(line)
+
+#     return "\n".join(corrected_lines)
+import re
+
 def fix_serial_numbers(text):
-    start_trigger = '| :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |'
-    end_trigger = '# সৃজনশীল প্রশ্ন'
+    start_trigger = '২ চচবযाনा'
+    end_trigger = 'সৃজনশীল প্রশ্ন'
 
     in_correction_mode = False
     corrected_lines = []
     serial_counter = 1
+
+    def bangla_to_english_digit(bn):
+        mapping = {'০':'0','১':'1','২':'2','৩':'3','৪':'4','৫':'5','৬':'6','৭':'7','৮':'8','৯':'9'}
+        return ''.join([mapping.get(c, c) for c in bn])
+
+    def english_to_bangla_digit(en):
+        mapping = {'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'}
+        return ''.join([mapping.get(c, c) for c in en])
 
     for line in text.splitlines():
         if start_trigger in line:
@@ -58,38 +120,19 @@ def fix_serial_numbers(text):
             corrected_lines.append(line)
             continue
 
-        if in_correction_mode and "|" in line:
-            tokens = [token.strip() for token in line.strip('|').split('|')]
-            new_tokens = []
-            i = 0
-            while i < len(tokens):
-                if i % 2 == 0:  # SL column
-                    try:
-                        num_eng = int(bangla_to_english_digit(tokens[i]))
-                        if num_eng != serial_counter:
-                            new_tokens.append(english_to_bangla_digit(str(serial_counter)))
-                        else:
-                            new_tokens.append(tokens[i])
-                    except ValueError:
-                        new_tokens.append(english_to_bangla_digit(str(serial_counter)))
-                    serial_counter += 1
-                else:  # Ans column
-                    new_tokens.append(tokens[i])
-                i += 1
-
-            while len(new_tokens) < 10:
-                if len(new_tokens) % 2 == 0:
-                    new_tokens.append(english_to_bangla_digit(str(serial_counter)))
-                    serial_counter += 1
-                else:
-                    new_tokens.append('')
-
-            fixed_line = "| " + " | ".join(new_tokens) + " |"
-            corrected_lines.append(fixed_line)
+        if in_correction_mode and re.search(r'[০-৯]+ [কখগঘ]', line):
+            tokens = re.findall(r'([০-৯]+)\s*([কখগঘ])', line)
+            new_line = []
+            for sl, ans in tokens:
+                expected_sl = english_to_bangla_digit(str(serial_counter))
+                new_line.append(f"{expected_sl} {ans}")
+                serial_counter += 1
+            corrected_lines.append(" ".join(new_line))
         else:
             corrected_lines.append(line)
 
     return "\n".join(corrected_lines)
+
 
 mcq_answers = {
     "১": "ক", "২": "খ", "৩": "ক", "৪": "গ", "৫": "ক",
@@ -117,21 +160,71 @@ mcq_answers = {
 
 
 
+# def mcq_answering(text):
+#     lines = text.split("\n")
+    
+#     corrected_text = []
+#     current_question_number = None
+#     in_mcq_section = False
+#     start_trigger = "১। রবীন্দ্রনাথ ঠাকুরের জীবনাবসান ঘটে কোথায়?"
+#     end_trigger = "২ চচবযाনा"
+
+#     for line in lines:
+#         stripped_line = line.strip()
+
+#         # Step 0: Activate MCQ section if start line is found
+#         if not in_mcq_section and stripped_line == start_trigger:
+#             in_mcq_section = True
+#             corrected_text.append(line)
+#             continue
+
+#         # Step 0.5: Stop MCQ section if end line is found
+#         if in_mcq_section and stripped_line == end_trigger:
+#             in_mcq_section = False
+#             corrected_text.append(line)
+#             continue
+
+#         # If not in MCQ section, just add the line
+#         if not in_mcq_section:
+#             corrected_text.append(line)
+#             continue
+
+#         # Step 1: Detect question number
+#         match_question = re.match(r"^(\d+)।", stripped_line)
+#         # print(match_question)
+#         if match_question:
+#             current_question_number = match_question.group(1)
+#             # print(match_question)
+#             corrected_text.append(line)
+#             continue
+
+#         # Step 2: Add the option lines
+#         corrected_text.append(line)
+
+#         # Step 3: If this is the last option (ঘ), add the answer
+#         if stripped_line.startswith("(ঘ)"):
+#             answer = mcq_answers.get(current_question_number)
+#             if answer:
+#                 corrected_text.append(f"\nউত্তরঃ {answer}\n")
+
+#     return "\n".join(corrected_text)
+
+
+import re
+
 def mcq_answering(text):
     lines = text.split("\n")
     
     corrected_text = []
     current_question_number = None
+    current_options = {}
     in_mcq_section = False
+
     start_trigger = "১। রবীন্দ্রনাথ ঠাকুরের জীবনাবসান ঘটে কোথায়?"
-    end_trigger = "# ২) চচবযाনा"
+    end_trigger = "২ চচবযाনा"
 
     for line in lines:
         stripped_line = line.strip()
-        # print(stripped_line, "----",start_trigger)
-        # print("yes", start_trigger==stripped_line)
-        # # print(stripped_line, "+++",end_trigger)
-        # # print(stripped_line==end_trigger)
 
         # Step 0: Activate MCQ section if start line is found
         if not in_mcq_section and stripped_line == start_trigger:
@@ -152,20 +245,31 @@ def mcq_answering(text):
 
         # Step 1: Detect question number
         match_question = re.match(r"^(\d+)।", stripped_line)
-        # print(match_question)
         if match_question:
+            # নতুন প্রশ্ন শুরু হলে, আগের অপশনগুলো রিসেট করো
             current_question_number = match_question.group(1)
-            # print(match_question)
+            current_options = {}
             corrected_text.append(line)
             continue
 
-        # Step 2: Add the option lines
-        corrected_text.append(line)
+        # Step 2: Detect MCQ option lines like (ক) ঢাকা
+        match_option = re.match(r"^\((ক|খ|গ|ঘ)\)\s*(.+)", stripped_line)
+        if match_option:
+            opt_label = match_option.group(1)
+            opt_text = match_option.group(2)
+            current_options[opt_label] = opt_text
+            corrected_text.append(line)
 
-        # Step 3: If this is the last option (ঘ), add the answer
-        if stripped_line.startswith("(ঘ)"):
-            answer = mcq_answers.get(current_question_number)
-            if answer:
-                corrected_text.append(f"\nউত্তরঃ {answer}\n")
+            # Step 3: If this is the last option (ঘ), add the answer
+            if opt_label == "ঘ":
+                answer_letter = mcq_answers.get(current_question_number)
+                if answer_letter and answer_letter in current_options:
+                    answer_text = current_options[answer_letter]
+                    corrected_text.append(f"\nউত্তরঃ {answer_letter} ({answer_text})\n")
+
+            continue
+
+        # Step 4: Any other line
+        corrected_text.append(line)
 
     return "\n".join(corrected_text)

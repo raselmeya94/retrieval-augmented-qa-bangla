@@ -1,13 +1,14 @@
+# llm_evaluation/evaluation.py
 import sys
 import os
 import csv
 from datetime import datetime
 
 # Add 'app' directory to sys.path for module imports
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'app')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'bn_rag_app'))) 
 
 from load_vectordb import load_vectorstore
-from rag_pipeline import llm_evalution  # returns (answer, source_documents)
+from rag_pipeline import llm_evalution 
 from sentence_transformers import SentenceTransformer, util
 
 # Load models once
@@ -37,10 +38,6 @@ samples = [
         "expected_answer": "লাল",
     },
     {
-        "query": "'অপরিচিতা' গল্পে রেলকর্মচারী কতটি টিকিট বেঞ্চে ঝুলিয়েছিল?",
-        "expected_answer": "দুইটি",
-    },
-    {
         "query": "কল্যাণী কেন বিয়ে না করার সিদ্ধান্ত নিয়েছিল?",
         "expected_answer": "অপমানের প্রতিক্রিয়ায় এবং আত্মমর্যাদার কারণে",
     },
@@ -49,21 +46,20 @@ samples = [
         "expected_answer": "অনুপমের",
     },
     {
-        "query": "মেয়েটি ছবি পছন্দ করেছিল কিনা?",
-        "expected_answer": "হ্যাঁ, পছন্দ করেছিল",
+
+        "query": "অনুপমের মামার সাথে করে সেকরা নিয়ে যাওয়ার কারণ?",
+        "expected_answer": "বিশ্বাসের অভাব",
     },
     {
-        "query": "অনুপম কাকে চিরকাল গলার স্বরের কারণে স্মরণে রেখেছে?",
-        "expected_answer": "কল্যাণীকে",
+        "query": "এটা আপনাদের জিনিস, আপনাদের কাছেই থাক। এরূপ মন্তব্যের কারণ কী?",
+        "expected_answer":  "এটা আপনাদের জিনিস, আপনাদের কাছেই থাক। অনুপমের মামাকে উদ্দেশ করে এ মন্তব্যটি করেছেন কল্যাণীর বাবা শম্ভুনাথ সেন। 'অপরিচিতা' গল্পে কল্যাণীর পিতা যখন দেখেন যে বরের মামা কন্যার গহনা যাচাই করার জন্য সঙ্গে করে সেকরা নিয়ে এসেছেন তখনই মেয়ের বাবা শম্ভুনাথ সেন সিদ্ধান্ত নেন যে, এমন লোভী ও হীন মানসিকতাসম্পন্ন মানুষের ঘরে মেয়ে দেবেন না। কন্যাপক্ষের সমস্ত গহনা একে একে পরীক্ষা করা শেষ হলে|  শম্ভুনাথ সেন একজোড়া কানের দুল সেকরাকে পরীক্ষা করতে বলেন। সেকরা জানায় এ দুলে সোনার পরিমাণ অনেক কম আছে। ঐ কানের দুল অনুপমের মামা মেয়েকে আশীর্বাদ করার সময় দিয়েছিলেন। শম্ভুনাথ সেন অনুপমের মামার হাতে কানের দুল জোড়া দিয়ে প্রশ্নোক্ত কথাটি বলেন। এ ঘটনায় অনুপমের মামা অপমানিত বোধ করেন। "
+
     },
     {
-        "query": "অনুপম মনে করত কল্যাণী ছবিটি কোথায় লুকিয়ে রেখেছে?",
-        "expected_answer": "তার কোনো-একটি বাক্সের মধ্যে",
-    },
-    {
-        "query": "অনুপম কল্পনায় দেখে কল্যাণী দুপুরবেলায় কী করে?",
-        "expected_answer": "দরজা বন্ধ করে ছবিটি দেখে এবং সুগন্ধ আঁচলে লুকিয়ে ফেলে",
-    },
+        "query": "'মামা বিবাহ বাড়িতে ঢুকিয়া খুশি হইলেন না।' কেন?",
+        "expected_answer": "বিয়েবাড়িতে বরযাত্রীদের জায়গা সংকুলান না হওয়া এবং বিয়ের সমস্ত আয়োজন ও আতিথেয়তা প্রত্যাশিত না হওয়ায় মামা বিয়েবাড়িতে ঢুকে খুশি হলেন না।"
+   }
+  
 ]
 
 def cosine_similarity_score(a: str, b: str) -> float:
